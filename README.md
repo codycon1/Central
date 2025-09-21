@@ -6,3 +6,7 @@ This repository, central, is my personal learning scratchpad. It's a place where
 This repo serves as a living portfolio, 
 
 Feel free to browse, and if you have any questions about the code or my learning journey, don't hesitate to reach out.
+
+## log
+- Initialized Vue project
+- Added TailwindCSS
