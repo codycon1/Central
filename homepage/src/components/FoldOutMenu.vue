@@ -58,6 +58,12 @@ const menuItems: MenuItem[] = [
     title: 'Database Interaction',
     description: 'Manage and interact with your database',
     icon: '🗄️'
+  },
+  {
+    path: '/network-topology',
+    title: 'Network Topology',
+    description: 'Topology of my home network',
+    icon: '🌐'
   }
 ]
 </script>
