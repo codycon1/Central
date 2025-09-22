@@ -5,25 +5,34 @@
             <div class="welcome-section">
               <h2 class="welcome-title">Home Network Topology</h2>
               <p class="welcome-subtitle">Below is a topology of my home network, including my router, modem, and connected devices</p>
+              <p class="welcome-subtitle">Coming soon, but for me only, so don't get your hopes up: links to directly access devices on LAN, configuration for routers and direct RustDesk connections</p>
             </div>
           </div>
             <div class="feature-cards">
               <div class="network-topology-container">
                 <div class="topology-chart">
-                  <svg viewBox="0 0 800 650" class="network-svg">
+                  <svg viewBox="0 0 800 850" class="network-svg">
                     <!-- Background -->
-                    <rect width="800" height="650" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+                    <rect width="800" height="850" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
                     
                     <!-- Title -->
                     <text x="400" y="30" text-anchor="middle" class="chart-title">Home Network Topology</text>
                     
                     <!-- Wireless VLAN Border -->
-                    <rect x="330" y="380" width="320" height="100" rx="12" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,5"/>
-                    <text x="490" y="375" text-anchor="middle" class="vlan-label">Wireless VLAN - SmartHome</text>
+                    <rect x="330" y="460" width="320" height="100" rx="12" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,5"/>
+                    <text x="490" y="455" text-anchor="middle" class="vlan-label">Wireless VLAN - SmartHome</text>
                     
                     <!-- Technical Note -->
-                    <text x="490" y="390" text-anchor="middle" class="technical-note">Smart bulbs use 3rd party management via mfg apps</text>
-                    <text x="490" y="403" text-anchor="middle" class="technical-note">and are isolated from the rest of the network</text>
+                    <text x="490" y="470" text-anchor="middle" class="technical-note">Smart bulbs use 3rd party management via mfg apps</text>
+                    <text x="490" y="483" text-anchor="middle" class="technical-note">and are isolated from the rest of the network</text>
+                    
+                    <!-- WiFi-Only VLAN Border -->
+                    <rect x="450" y="630" width="320" height="100" rx="12" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="5,5"/>
+                    <text x="610" y="625" text-anchor="middle" class="vlan-label wifi-vlan-label">Full access VLAN - Internal Devices</text>
+                    
+                    <!-- WiFi VLAN Technical Note -->
+                    <text x="610" y="640" text-anchor="middle" class="technical-note">Internal WiFi devices with unrestricted access</text>
+                    <text x="610" y="653" text-anchor="middle" class="technical-note">and not isolated from main network</text>
                     
                     <!-- Dynamic Connections -->
                     <g v-for="connection in connections" :key="`connection-${connection.from}-${connection.to}`">
@@ -64,7 +73,7 @@
                     <g class="legend">
                       <rect 
                         :x="50" 
-                        :y="380" 
+                        :y="460" 
                         width="250" 
                         :height="legendHeight" 
                         rx="8" 
@@ -72,13 +81,13 @@
                         stroke="#d1d5db" 
                         stroke-width="1"
                       />
-                      <text x="175" y="405" text-anchor="middle" class="legend-title">Device Types</text>
+                      <text x="175" y="485" text-anchor="middle" class="legend-title">Device Types</text>
                       
                       <!-- Dynamic Legend Items -->
                       <g v-for="(legendItem, index) in legendItems" :key="legendItem.type">
                         <rect 
                           :x="70" 
-                          :y="420 + (index * 20)" 
+                          :y="500 + (index * 20)" 
                           width="20" 
                           height="15" 
                           rx="3" 
@@ -86,7 +95,7 @@
                         />
                         <text 
                           :x="100" 
-                          :y="432 + (index * 20)" 
+                          :y="512 + (index * 20)" 
                           class="legend-text"
                         >
                           {{ legendItem.label }}
@@ -173,7 +182,7 @@
       id: 'desktop1',
       type: 'desktop',
       x: 150,
-      y: 220,
+      y: 320,
       width: 80,
       height: 50,
       color: '#8b5cf6',
@@ -185,7 +194,7 @@
       id: 'desktop2',
       type: 'desktop',
       x: 350,
-      y: 220,
+      y: 320,
       width: 80,
       height: 50,
       color: '#8b5cf6',
@@ -197,7 +206,7 @@
       id: 'desktop3',
       type: 'desktop',
       x: 550,
-      y: 220,
+      y: 320,
       width: 80,
       height: 50,
       color: '#8b5cf6',
@@ -209,7 +218,7 @@
        id: 'wireless-ssid',
        type: 'wireless',
        x: 500,
-       y: 95,
+       y: 180,
        width: 100,
        height: 60,
        color: '#ef4444',
@@ -218,10 +227,22 @@
        subtitle: '192.168.20.0/20'
      },
      {
+       id: 'wifi-vlan-ssid',
+       type: 'wireless',
+       x: 500,
+       y: 95,
+       width: 100,
+       height: 60,
+       color: '#ef4444',
+       strokeColor: '#dc2626',
+       label: 'Internal VLAN',
+       subtitle: '192.168.30.0/25'
+     },
+     {
        id: 'smartbulb1',
        type: 'smartbulb',
        x: 350,
-       y: 410,
+       y: 490,
        width: 70,
        height: 45,
        color: '#fbbf24',
@@ -233,7 +254,7 @@
        id: 'smartbulb2',
        type: 'smartbulb',
        x: 450,
-       y: 410,
+       y: 490,
        width: 70,
        height: 45,
        color: '#fbbf24',
@@ -245,7 +266,7 @@
        id: 'smartbulb3',
        type: 'smartbulb',
        x: 550,
-       y: 410,
+       y: 490,
        width: 70,
        height: 45,
        color: '#fbbf24',
@@ -257,7 +278,55 @@
        id: 'vlan-section',
        type: 'vlan',
        x: 490,
-       y: 380,
+       y: 460,
+       width: 0,
+       height: 0,
+       color: 'transparent',
+       strokeColor: 'transparent',
+       label: '',
+       subtitle: ''
+     },
+     {
+       id: 'wifi-device1',
+       type: 'wifi-device',
+       x: 470,
+       y: 660,
+       width: 70,
+       height: 45,
+       color: '#60a5fa',
+       strokeColor: '#3b82f6',
+       label: 'iPhone',
+       subtitle: '192.168.30.10'
+     },
+     {
+       id: 'wifi-device2',
+       type: 'wifi-device',
+       x: 570,
+       y: 660,
+       width: 70,
+       height: 45,
+       color: '#60a5fa',
+       strokeColor: '#3b82f6',
+       label: 'iPad',
+       subtitle: '192.168.30.11'
+     },
+     {
+       id: 'wifi-device3',
+       type: 'wifi-device',
+       x: 670,
+       y: 660,
+       width: 70,
+       height: 45,
+       color: '#60a5fa',
+       strokeColor: '#3b82f6',
+       label: 'Android',
+       subtitle: '192.168.30.12'
+     },
+     {
+       id: 'wifi-vlan-section',
+       type: 'wifi-vlan-section',
+       x: 610,
+       y: 630,
        width: 0,
        height: 0,
        color: 'transparent',
@@ -275,7 +344,9 @@
      { from: 'router', to: 'desktop2' },
      { from: 'router', to: 'desktop3' },
      { from: 'router', to: 'wireless-ssid' },
-     { from: 'wireless-ssid', to: 'vlan-section' }
+     { from: 'wireless-ssid', to: 'vlan-section' },
+     { from: 'router', to: 'wifi-vlan-ssid' },
+     { from: 'wifi-vlan-ssid', to: 'wifi-vlan-section' }
    ])
 
    // Function to calculate connection segments between two nodes
@@ -287,7 +358,7 @@
 
      // For router to desktop connections, create a hub pattern
      if (fromNode.id === 'router' && toNode.type === 'desktop') {
-       const hubY = fromNode.y + fromNode.height + 30
+       const hubY = toNode.y - 30  // Position hub 30 pixels above desktop nodes
        const hubX = fromNode.x + fromNode.width / 2
        const desktopY = toNode.y
        const desktopX = toNode.x + toNode.width / 2
@@ -305,15 +376,20 @@
        return [`M ${fromX} ${fromY} L ${toX} ${toY}`]
      }
 
+     // For router to WiFi VLAN SSID connection
+     if (fromNode.id === 'router' && toNode.id === 'wifi-vlan-ssid') {
+       return [`M ${fromX} ${fromY} L ${toX} ${toY}`]
+     }
+
      // For wireless SSID to VLAN section connection
      if (fromNode.id === 'wireless-ssid' && toNode.id === 'vlan-section') {
        const ssidRight = fromNode.x + fromNode.width // Right edge of SSID
        const ssidCenterY = fromNode.y + fromNode.height / 2 // Center Y of SSID
-       const vlanY = 380 // Top of VLAN border
+       const vlanY = 460 // Top of VLAN border
        const vlanRight = 650 // Right edge of VLAN border (330 + 320)
        const desktop3Right = 630 // Right edge of desktop 3 (550 + 80)
        const routingX = desktop3Right + 20 // Go right past desktop 3
-       const desktop3Bottom = 270 // Bottom edge of desktop 3 (220 + 50)
+       const desktop3Bottom = 370 // Bottom edge of desktop 3 (320 + 50)
        const safeY = desktop3Bottom + 20 // Safe distance below desktop 3
 
        return [
@@ -321,6 +397,19 @@
          `M ${routingX} ${ssidCenterY} L ${routingX} ${safeY}`, // Vertical line down
          `M ${routingX} ${safeY} L ${vlanRight} ${safeY}`, // Horizontal line left to VLAN border
          `M ${vlanRight} ${safeY} L ${vlanRight} ${vlanY}`     // Vertical line down to VLAN border
+       ]
+     }
+
+     // For WiFi VLAN SSID to WiFi VLAN section connection
+     if (fromNode.id === 'wifi-vlan-ssid' && toNode.id === 'wifi-vlan-section') {
+       const ssidRight = fromNode.x + fromNode.width // Right edge of WiFi SSID
+       const ssidCenterY = fromNode.y + fromNode.height / 2 // Center Y of WiFi SSID
+       const vlanY = 630 // Top of WiFi VLAN border
+       const vlanRight = 770 // Right edge of WiFi VLAN border (450 + 320)
+
+       return [
+         `M ${ssidRight} ${ssidCenterY} L ${vlanRight} ${ssidCenterY}`, // Horizontal line right to WiFi VLAN border
+         `M ${vlanRight} ${ssidCenterY} L ${vlanRight} ${vlanY}`     // Vertical line down to top right corner of WiFi VLAN border
        ]
      }
 
@@ -388,6 +477,9 @@
              break
            case 'smartbulb':
              label = 'Smart Home Devices'
+             break
+           case 'wifi-device':
+             label = 'WiFi-Only Devices'
              break
            default:
              label = node.type.charAt(0).toUpperCase() + node.type.slice(1)
@@ -503,6 +595,10 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
+  .wifi-vlan-label {
+    fill: #3b82f6;
+  }
+  
   .technical-note {
     font-size: 10px;
     font-weight: 400;
@@ -510,8 +606,27 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
-  /* Device hover effects disabled as requested */
-  .wan-group, .modem-group, .router-group, .desktop-group, .wireless-group, .smartbulb-group {
+  /* Device hover effects - excluding VLAN border */
+  .wan-group, .modem-group, .router-group, .desktop-group, .wireless-group, .smartbulb-group, .wifi-device-group {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .wan-group:hover, .modem-group:hover, .router-group:hover, .desktop-group:hover, .wireless-group:hover, .smartbulb-group:hover, .wifi-device-group:hover {
+    filter: brightness(1.1);
+  }
+  
+  .wan-group:hover rect, .modem-group:hover rect, .router-group:hover rect, .desktop-group:hover rect, .wireless-group:hover rect, .smartbulb-group:hover rect, .wifi-device-group:hover rect {
+    stroke-width: 3;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  }
+  
+  .wan-group:hover text, .modem-group:hover text, .router-group:hover text, .desktop-group:hover text, .wireless-group:hover text, .smartbulb-group:hover text, .wifi-device-group:hover text {
+    font-weight: 700;
+  }
+  
+  /* VLAN group should not have hover effects */
+  .vlan-group, .wifi-vlan-section-group {
     cursor: default;
   }
   
