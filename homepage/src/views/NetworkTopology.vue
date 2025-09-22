@@ -10,12 +10,20 @@
             <div class="feature-cards">
               <div class="network-topology-container">
                 <div class="topology-chart">
-                  <svg viewBox="0 0 800 500" class="network-svg">
+                  <svg viewBox="0 0 800 650" class="network-svg">
                     <!-- Background -->
-                    <rect width="800" height="500" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+                    <rect width="800" height="650" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
                     
                     <!-- Title -->
                     <text x="400" y="30" text-anchor="middle" class="chart-title">Home Network Topology</text>
+                    
+                    <!-- Wireless VLAN Border -->
+                    <rect x="330" y="380" width="320" height="100" rx="12" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,5"/>
+                    <text x="490" y="375" text-anchor="middle" class="vlan-label">Wireless VLAN - SmartHome</text>
+                    
+                    <!-- Technical Note -->
+                    <text x="490" y="390" text-anchor="middle" class="technical-note">Smart bulbs use 3rd party management via mfg apps</text>
+                    <text x="490" y="403" text-anchor="middle" class="technical-note">and are isolated from the rest of the network</text>
                     
                     <!-- Dynamic Connections -->
                     <g v-for="connection in connections" :key="`connection-${connection.from}-${connection.to}`">
@@ -54,14 +62,23 @@
                     
                     <!-- Dynamic Legend -->
                     <g class="legend">
-                      <rect x="50" y="350" width="300" height="120" rx="8" fill="#f9fafb" stroke="#d1d5db" stroke-width="1"/>
-                      <text x="200" y="375" text-anchor="middle" class="legend-title">Device Types</text>
+                      <rect 
+                        :x="50" 
+                        :y="380" 
+                        width="250" 
+                        :height="legendHeight" 
+                        rx="8" 
+                        fill="#f9fafb" 
+                        stroke="#d1d5db" 
+                        stroke-width="1"
+                      />
+                      <text x="175" y="405" text-anchor="middle" class="legend-title">Device Types</text>
                       
                       <!-- Dynamic Legend Items -->
                       <g v-for="(legendItem, index) in legendItems" :key="legendItem.type">
                         <rect 
                           :x="70" 
-                          :y="390 + (index * 20)" 
+                          :y="420 + (index * 20)" 
                           width="20" 
                           height="15" 
                           rx="3" 
@@ -69,7 +86,7 @@
                         />
                         <text 
                           :x="100" 
-                          :y="402 + (index * 20)" 
+                          :y="432 + (index * 20)" 
                           class="legend-text"
                         >
                           {{ legendItem.label }}
@@ -126,19 +143,19 @@
       color: '#3b82f6',
       strokeColor: '#1e40af',
       label: 'WAN',
-      subtitle: 'Coaxial based gigabit, non-symmetrical'
+      subtitle: 'Coaxial gigabit'
     },
     {
       id: 'modem',
       type: 'modem',
-      x: 200,
+      x: 185,
       y: 100,
-      width: 80,
+      width: 120,
       height: 50,
       color: '#10b981',
       strokeColor: '#059669',
-      label: 'Modem',
-      subtitle: 'ISP Gateway'
+      label: 'Nighthawk Modem',
+      subtitle: 'CM-1000'
     },
     {
       id: 'router',
@@ -149,8 +166,8 @@
       height: 50,
       color: '#f59e0b',
       strokeColor: '#d97706',
-      label: 'Router',
-      subtitle: 'WiFi + Switch'
+      label: 'Archer',
+      subtitle: 'Ax-1500'
     },
     {
       id: 'desktop1',
@@ -187,43 +204,129 @@
       strokeColor: '#7c3aed',
       label: 'Desktop PC 3',
       subtitle: 'Media Server'
-    }
+    },
+     {
+       id: 'wireless-ssid',
+       type: 'wireless',
+       x: 500,
+       y: 95,
+       width: 100,
+       height: 60,
+       color: '#ef4444',
+       strokeColor: '#dc2626',
+       label: 'SmartHome VLAN',
+       subtitle: '192.168.20.0/20'
+     },
+     {
+       id: 'smartbulb1',
+       type: 'smartbulb',
+       x: 350,
+       y: 410,
+       width: 70,
+       height: 45,
+       color: '#fbbf24',
+       strokeColor: '#f59e0b',
+       label: 'Smart Bulb 1',
+       subtitle: '192.168.20.10'
+     },
+     {
+       id: 'smartbulb2',
+       type: 'smartbulb',
+       x: 450,
+       y: 410,
+       width: 70,
+       height: 45,
+       color: '#fbbf24',
+       strokeColor: '#f59e0b',
+       label: 'Smart Bulb 2',
+       subtitle: '192.168.20.11'
+     },
+     {
+       id: 'smartbulb3',
+       type: 'smartbulb',
+       x: 550,
+       y: 410,
+       width: 70,
+       height: 45,
+       color: '#fbbf24',
+       strokeColor: '#f59e0b',
+       label: 'Smart Bulb 3',
+       subtitle: '192.168.20.12'
+     },
+     {
+       id: 'vlan-section',
+       type: 'vlan',
+       x: 490,
+       y: 380,
+       width: 0,
+       height: 0,
+       color: 'transparent',
+       strokeColor: 'transparent',
+       label: '',
+       subtitle: ''
+     }
   ])
 
-  // Connection definitions - defines which nodes are connected
-  const connectionDefinitions = ref([
-    { from: 'wan', to: 'modem' },
-    { from: 'modem', to: 'router' },
-    { from: 'router', to: 'desktop1' },
-    { from: 'router', to: 'desktop2' },
-    { from: 'router', to: 'desktop3' }
-  ])
+   // Connection definitions - defines which nodes are connected
+   const connectionDefinitions = ref([
+     { from: 'wan', to: 'modem' },
+     { from: 'modem', to: 'router' },
+     { from: 'router', to: 'desktop1' },
+     { from: 'router', to: 'desktop2' },
+     { from: 'router', to: 'desktop3' },
+     { from: 'router', to: 'wireless-ssid' },
+     { from: 'wireless-ssid', to: 'vlan-section' }
+   ])
 
-  // Function to calculate connection segments between two nodes
-  const calculateConnectionSegments = (fromNode: NetworkNode, toNode: NetworkNode): string[] => {
-    const fromX = fromNode.x + fromNode.width
-    const fromY = fromNode.y + fromNode.height / 2
-    const toX = toNode.x
-    const toY = toNode.y + toNode.height / 2
+   // Function to calculate connection segments between two nodes
+   const calculateConnectionSegments = (fromNode: NetworkNode, toNode: NetworkNode): string[] => {
+     const fromX = fromNode.x + fromNode.width
+     const fromY = fromNode.y + fromNode.height / 2
+     const toX = toNode.x
+     const toY = toNode.y + toNode.height / 2
 
-    // For router to desktop connections, create a hub pattern
-    if (fromNode.id === 'router' && toNode.type === 'desktop') {
-      const hubY = fromNode.y + fromNode.height + 30
-      const hubX = fromNode.x + fromNode.width / 2
-      const desktopY = toNode.y
-      const desktopX = toNode.x + toNode.width / 2
+     // For router to desktop connections, create a hub pattern
+     if (fromNode.id === 'router' && toNode.type === 'desktop') {
+       const hubY = fromNode.y + fromNode.height + 30
+       const hubX = fromNode.x + fromNode.width / 2
+       const desktopY = toNode.y
+       const desktopX = toNode.x + toNode.width / 2
 
-      // Create separate line segments to avoid filled triangles
-      return [
-        `M ${hubX} ${fromY} L ${hubX} ${hubY}`,           // Vertical line down from router
-        `M ${hubX} ${hubY} L ${desktopX} ${hubY}`,        // Horizontal line to desktop
-        `M ${desktopX} ${hubY} L ${desktopX} ${desktopY}` // Vertical line down to desktop
-      ]
-    }
+       // Create separate line segments to avoid filled triangles
+       return [
+         `M ${hubX} ${fromY} L ${hubX} ${hubY}`,           // Vertical line down from router
+         `M ${hubX} ${hubY} L ${desktopX} ${hubY}`,        // Horizontal line to desktop
+         `M ${desktopX} ${hubY} L ${desktopX} ${desktopY}` // Vertical line down to desktop
+       ]
+     }
 
-    // For simple horizontal connections
-    return [`M ${fromX} ${fromY} L ${toX} ${toY}`]
-  }
+     // For router to wireless SSID connection
+     if (fromNode.id === 'router' && toNode.id === 'wireless-ssid') {
+       return [`M ${fromX} ${fromY} L ${toX} ${toY}`]
+     }
+
+     // For wireless SSID to VLAN section connection
+     if (fromNode.id === 'wireless-ssid' && toNode.id === 'vlan-section') {
+       const ssidRight = fromNode.x + fromNode.width // Right edge of SSID
+       const ssidCenterY = fromNode.y + fromNode.height / 2 // Center Y of SSID
+       const vlanY = 380 // Top of VLAN border
+       const vlanRight = 650 // Right edge of VLAN border (330 + 320)
+       const desktop3Right = 630 // Right edge of desktop 3 (550 + 80)
+       const routingX = desktop3Right + 20 // Go right past desktop 3
+       const desktop3Bottom = 270 // Bottom edge of desktop 3 (220 + 50)
+       const safeY = desktop3Bottom + 20 // Safe distance below desktop 3
+
+       return [
+         `M ${ssidRight} ${ssidCenterY} L ${routingX} ${ssidCenterY}`, // Horizontal line right past desktop 3
+         `M ${routingX} ${ssidCenterY} L ${routingX} ${safeY}`, // Vertical line down
+         `M ${routingX} ${safeY} L ${vlanRight} ${safeY}`, // Horizontal line left to VLAN border
+         `M ${vlanRight} ${safeY} L ${vlanRight} ${vlanY}`     // Vertical line down to VLAN border
+       ]
+     }
+
+     // For simple horizontal connections
+     return [`M ${fromX} ${fromY} L ${toX} ${toY}`]
+   }
 
   // Computed property for connections with calculated segments
   const connections = computed<Connection[]>(() => {
@@ -247,43 +350,62 @@
   // Computed property for nodes
   const nodes = computed(() => nodeData.value)
 
-  // Legend items - automatically generated from unique node types
-  const legendItems = computed<LegendItem[]>(() => {
-    const uniqueTypes = new Map<string, { color: string; label: string }>()
-    
-    nodeData.value.forEach(node => {
-      if (!uniqueTypes.has(node.type)) {
-        let label = ''
-        switch (node.type) {
-          case 'wan':
-            label = 'WAN/Internet Connection'
-            break
-          case 'modem':
-            label = 'Modem/ISP Gateway'
-            break
-          case 'router':
-            label = 'Router/WiFi Access Point'
-            break
-          case 'desktop':
-            label = 'Desktop Computers'
-            break
-          default:
-            label = node.type.charAt(0).toUpperCase() + node.type.slice(1)
-        }
-        
-        uniqueTypes.set(node.type, {
-          color: node.color,
-          label
-        })
-      }
-    })
-
-    return Array.from(uniqueTypes.entries()).map(([type, data]) => ({
-      type,
-      color: data.color,
-      label: data.label
-    }))
+  // Computed property for dynamic legend height
+  const legendHeight = computed(() => {
+    const baseHeight = 50 // Title area + padding
+    const itemHeight = 20 // Height per legend item
+    const bottomPadding = 20 // Bottom padding
+    return baseHeight + (legendItems.value.length * itemHeight) + bottomPadding
   })
+
+   // Legend items - automatically generated from unique node types
+   const legendItems = computed<LegendItem[]>(() => {
+     const uniqueTypes = new Map<string, { color: string; label: string }>()
+     
+     nodeData.value.forEach(node => {
+       // Skip invisible nodes
+       if (node.type === 'vlan' || node.width === 0) {
+         return
+       }
+       
+       if (!uniqueTypes.has(node.type)) {
+         let label = ''
+         switch (node.type) {
+           case 'wan':
+             label = 'WAN/Internet Connection'
+             break
+           case 'modem':
+             label = 'Modem/ISP Gateway'
+             break
+           case 'router':
+             label = 'Router/WiFi Access Point'
+             break
+           case 'desktop':
+             label = 'Desktop Computers'
+             break
+           case 'wireless':
+             label = 'Wireless Access Point'
+             break
+           case 'smartbulb':
+             label = 'Smart Home Devices'
+             break
+           default:
+             label = node.type.charAt(0).toUpperCase() + node.type.slice(1)
+         }
+         
+         uniqueTypes.set(node.type, {
+           color: node.color,
+           label
+         })
+       }
+     })
+
+     return Array.from(uniqueTypes.entries()).map(([type, data]) => ({
+       type,
+       color: data.color,
+       label: data.label
+     }))
+   })
 
   // Function to add a new node (for future use)
   const addNode = (node: Omit<NetworkNode, 'id'>) => {
@@ -374,8 +496,22 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
+  .vlan-label {
+    font-size: 14px;
+    font-weight: 600;
+    fill: #ef4444;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .technical-note {
+    font-size: 10px;
+    font-weight: 400;
+    fill: #6b7280;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
   /* Device hover effects disabled as requested */
-  .wan-group, .modem-group, .router-group, .desktop-group {
+  .wan-group, .modem-group, .router-group, .desktop-group, .wireless-group, .smartbulb-group {
     cursor: default;
   }
   
@@ -408,6 +544,14 @@
     .legend-text {
       font-size: 11px;
     }
+    
+    .vlan-label {
+      font-size: 12px;
+    }
+    
+    .technical-note {
+      font-size: 9px;
+    }
   }
   
   @media (max-width: 480px) {
@@ -437,6 +581,14 @@
     
     .legend-text {
       font-size: 10px;
+    }
+    
+    .vlan-label {
+      font-size: 11px;
+    }
+    
+    .technical-note {
+      font-size: 8px;
     }
   }
   </style>
