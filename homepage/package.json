@@ -11,10 +11,13 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build"
+    "type-check": "vue-tsc --build",
+    "start": "node server.js",
+    "start:prod": "npm run build && npm run start"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.13",
+    "express": "^5.1.0",
     "pinia": "^3.0.3",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"

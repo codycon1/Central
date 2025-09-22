@@ -10,3 +10,7 @@ Feel free to browse, and if you have any questions about the code or my learning
 ## log
 - Initialized Vue project
 - Added TailwindCSS
+- Added a homepage including a stopwatch widget with a styled 8 segment display
+- Added a template for database interaction (coming soon)
+- Added a network topology chart for fun
+- BIG: Vue is now dockerized! Serving the site is now easy!
