@@ -7,6 +7,29 @@ This repo serves as a living portfolio,
 
 Feel free to browse, and if you have any questions about the code or my learning journey, don't hesitate to reach out.
 
+## Docker Commands
+
+To serve the application using Docker:
+
+```bash
+# Build and start the application
+docker-compose up --build
+
+# Start the application in detached mode (background)
+docker-compose up -d
+
+# Stop the application
+docker-compose down
+
+# View application logs
+docker-compose logs -f
+
+# Rebuild and restart (useful after code changes)
+docker-compose up --build --force-recreate
+```
+
+The application will be available at `http://localhost:3000`
+
 ## log
 - Initialized Vue project
 - Added TailwindCSS
@@ -14,3 +37,4 @@ Feel free to browse, and if you have any questions about the code or my learning
 - Added a template for database interaction (coming soon)
 - Added a network topology chart for fun
 - BIG: Vue is now dockerized! Serving the site is now easy!
+
